@@ -4,14 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <h2>날씨 예보</h2>
+    <div id="back">
+      <img src="img/back.svg" />
+    </div>
+    <div id="bg"><img src="img/bgIcon.png" /></div>
+    <div class="title">
+      <h1 data-text="WeatherSphere">WeatherSphere</h1>
+      <img src="img/logo.png" />
+    </div>
+    <div id="searchArea">
+      <input placeholder="도시이름 입력" />
+      <button id="searchBtn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
     <p id="location"></p>
-    <input placeholder="도시이름 입력" />
-    <button id="searchBtn">검색</button>
     <ul>
       <li>
         <img />
@@ -50,6 +68,6 @@
       </li>
     </ul>
     <canvas id="weatherChart"></canvas>
-    <script src="weather.js"></script>
+    <script src="js/weather.js"></script>
   </body>
 </html>
