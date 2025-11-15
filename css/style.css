@@ -1,6 +1,7 @@
 /* --------------------------------------------- */
 /* 공통사항 */
 /* --------------------------------------------- */
+
 @font-face {
   font-family: "PartialSans";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2")
@@ -13,10 +14,13 @@
   margin: 0;
   padding: 0;
 }
+
 ul {
   list-style: none;
 }
+
 body {
+  width: 100vw;
   height: 100vh;
   background-size: cover;
   background-position: center;
@@ -24,6 +28,11 @@ body {
   text-align: center;
   overflow: hidden;
 }
+
+/* --------------------------------------------- */
+/* 배경 & 얼굴 아이콘 */
+/* --------------------------------------------- */
+
 .bg {
   position: absolute;
   bottom: 0px;
@@ -31,25 +40,29 @@ body {
   width: 25%;
   display: none;
 }
+
 .bg.on {
   display: block;
 }
+
 .face {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+  aspect-ratio: 1 / 1;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   z-index: -1;
 }
+
 .face-day {
   background-image: url("../img/dayIcon.png");
 }
+
 .face-night {
   background-image: url("../img/nightIcon.png");
 }
-/* 눈(흰자 부분) */
+
 .eye {
   position: absolute;
   width: 15%;
@@ -58,16 +71,17 @@ body {
   border-radius: 50%;
   overflow: hidden;
 }
-/* 눈 위치 적당히 잡기 (필요하면 조정해도 됨) */
+
 .eye-left {
   left: 42%;
   top: 37%;
 }
+
 .eye-right {
   right: 32%;
   top: 37%;
 }
-/* 동공(기본은 정중앙) */
+
 .pupil {
   position: absolute;
   left: 50%;
@@ -76,18 +90,26 @@ body {
   height: 55%;
   border-radius: 50%;
   background-color: #000;
-  transform: translate(-50%, -50%); /* 기본 중앙 정렬 */
+  transform: translate(-50%, -50%);
 }
+
 .bg img {
   width: 100%;
   transform-origin: center center;
 }
+
 body.day {
   background-image: url("../img/bg_day.png");
 }
+
 body.night {
   background-image: url("../img/bg_night.png");
 }
+
+/* --------------------------------------------- */
+/* 뒤로가기 버튼 */
+/* --------------------------------------------- */
+
 #back {
   position: absolute;
   left: 30px;
@@ -96,12 +118,15 @@ body.night {
   cursor: pointer;
   z-index: 999;
 }
+
 #back:hover {
   transform: scale(1.2);
 }
-/* ----------------------------------- */
-/* title */
-/* ----------------------------------- */
+
+/* --------------------------------------------- */
+/* 타이틀 */
+/* --------------------------------------------- */
+
 .title {
   display: flex;
   justify-content: center;
@@ -109,25 +134,24 @@ body.night {
   position: relative;
   padding: 180px 0px 60px;
 }
+
 h1 {
   display: inline-block;
   position: relative;
-  z-index: 1; /* 네가 말한대로 유지 */
+  z-index: 1;
   font-family: "PartialSans";
   font-size: 72px;
-  color: #000; /* 기본 텍스트 색은 검정 */
+  color: #000;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
-  overflow: hidden; /* 광택이 박스 밖으로 나가는 부분 잘라내기 */
+  overflow: hidden;
 }
 
-/* 광택 텍스트 레이어 */
 h1::after {
-  content: attr(data-text); /* h1 안의 텍스트를 다시 사용 */
+  content: attr(data-text);
   position: absolute;
-  inset: 0; /* top:0; left:0; right:0; bottom:0; */
+  inset: 0;
   pointer-events: none;
 
-  /* 여기부터가 shine용 텍스트 */
   color: transparent;
   background-image: linear-gradient(
     120deg,
@@ -156,6 +180,7 @@ h1::after {
     background-position: -100% 0;
   }
 }
+
 .title img {
   display: block;
   position: absolute;
@@ -166,21 +191,22 @@ h1::after {
   z-index: 0;
 }
 
-/* ----------------------------------- */
-/* searchArea */
-/* ----------------------------------- */
+/* --------------------------------------------- */
+/* 검색영역 */
+/* --------------------------------------------- */
+
 #searchArea {
   margin: 0px auto;
   width: clamp(500px, 70%, 920px);
   position: relative;
   transform-origin: center;
 }
-/* 자동완성 박스 */
+
 #suggestBox {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 80px; /* input 아래로 약간 띄우기 */
+  top: 80px;
   width: 100%;
   max-height: 220px;
   overflow-y: auto;
@@ -190,7 +216,7 @@ h1::after {
   padding: 8px 0;
   box-sizing: border-box;
   z-index: 50;
-  display: none; /* 기본은 숨김 */
+  display: none;
 }
 
 #suggestBox.active {
@@ -221,6 +247,7 @@ h1::after {
 .suggest-item:hover {
   background: rgba(0, 0, 0, 0.05);
 }
+
 #searchBtn {
   position: absolute;
   right: 20px;
@@ -230,6 +257,7 @@ h1::after {
   border: 0;
   cursor: pointer;
 }
+
 #searchBtn i {
   font-size: 22px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
@@ -239,6 +267,7 @@ h1::after {
 #searchBtn i:hover {
   transform: scale(1.3);
 }
+
 input {
   width: 100%;
   height: 75px;
@@ -250,23 +279,27 @@ input {
   border-radius: 50px;
   background-color: rgba(255, 255, 255, 0.1);
 }
+
 input.focused {
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.4);
   background-color: rgba(255, 255, 255, 0.4);
 }
-/* ----------------------------------- */
-/* location */
-/* ----------------------------------- */
+
+/* --------------------------------------------- */
+/* 위치 텍스트 */
+/* --------------------------------------------- */
 
 #location {
   margin: 40px auto;
   font-size: 24px;
   color: #666;
 }
+
 #location i {
   animation: rotate 2s infinite linear;
   perspective: 50%;
 }
+
 @keyframes rotate {
   0% {
     transform: rotateY(0deg);
@@ -279,9 +312,9 @@ input.focused {
   }
 }
 
-/* ----------------------------------- */
-/* 시간별 날씨정보 */
-/* ----------------------------------- */
+/* --------------------------------------------- */
+/* 시간별 날씨 카드 리스트 */
+/* --------------------------------------------- */
 
 ul {
   display: flex;
@@ -293,14 +326,17 @@ ul {
   height: 380px;
   align-items: center;
 }
+
 ul.dragging {
   cursor: grab;
 }
+
 ul.dragging * {
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
 li {
   padding: 10px;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
@@ -316,23 +352,25 @@ li {
   gap: 24px;
   box-sizing: border-box;
 }
+
 li:hover {
   box-shadow: 0px 3px 18px rgba(0, 0, 0, 0.5);
 }
+
 li.current {
   transform: scale(1.2);
   box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.25);
   border: 2px solid rgba(255, 255, 255, 0.8);
   position: relative;
 }
+
 li.current::after {
   background-color: rgba(255, 255, 255, 0.4);
   content: "";
   position: absolute;
   inset: 0;
-  padding: 4px; /* border 두께 */
+  padding: 4px;
   border-radius: inherit;
-
   background: linear-gradient(
     120deg,
     #ff4d4d,
@@ -344,14 +382,13 @@ li.current::after {
     #ff4dd2
   );
   filter: blur(12px);
-  background-size: 400% 400%; /* 흐르게 할 준비 */
+  background-size: 400% 400%;
   animation: borderFlow 8s linear infinite;
-
-  /* mask 계산 — 내부를 비워서 border처럼 보이게 */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+
 @keyframes borderFlow {
   0% {
     background-position: 0% 50%;
@@ -363,6 +400,7 @@ li.current::after {
     background-position: 0% 50%;
   }
 }
+
 li .iconWrap {
   display: flex;
   align-items: baseline;
@@ -370,21 +408,24 @@ li .iconWrap {
   border-radius: 18px;
   padding: 8px;
 }
+
 li .desc {
   font-weight: bold;
   font-size: 13px;
   text-align: left;
 }
+
 ul img {
   width: 100px;
 }
+
 li .temp {
   font-size: 1.2rem;
   font-weight: bold;
   position: relative;
-
   padding: 8px 0px;
 }
+
 li .temp::before {
   content: "";
   position: absolute;
@@ -393,6 +434,11 @@ li .temp::before {
   height: 2px;
   background-color: grey;
 }
+
+/* --------------------------------------------- */
+/* 차트 (준비용) */
+/* --------------------------------------------- */
+
 #weatherChart {
   display: none;
   width: 600px;

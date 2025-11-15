@@ -1,65 +1,53 @@
+//---------------------------------------------
+// DOM 요소 & 전역 변수
+//---------------------------------------------
+
 let input = document.querySelector("input");
 let button = document.querySelector("#searchBtn");
 let place = document.querySelector("#location");
 
-// 시간, 아이콘, 설명, 기온 요소
 let timeEls = document.querySelectorAll("li .time");
 let iconEls = document.querySelectorAll("li .iconWrap img");
 let descEls = document.querySelectorAll("li .iconWrap .desc");
 let tempEls = document.querySelectorAll("li .temp");
-
 let liEls = document.querySelectorAll("ul li");
 
 let APIkey = "e62600eea10cc3f1c1755f3360075d0c";
 let chart = null;
 
-// 좌표(lat, lon)로 forecast 가져오기
-async function fetchWeatherByCoords(lat, lon) {
-  let response = await fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`
-  );
-  let data = await response.json();
-  render(data);
-}
-// -----------------------------------
-// input focus효과
-// -----------------------------------
+//---------------------------------------------
+// input focus 효과
+//---------------------------------------------
+
 input.addEventListener("focusin", () => {
   input.classList.add("focused");
 });
+
 input.addEventListener("focusout", () => {
   input.classList.remove("focused");
 });
 
 //---------------------------------------------
-// 아이콘 d/n 보정 함수 (dt_txt 기준, 아주 단순 버전)
+// 아이콘 d/n 보정
 //---------------------------------------------
+
 function getCorrectIcon(iconCode, dtText) {
-  // iconCode 예: "02d" 또는 "02n"
-  // dtText 예: "2025-11-15 15:00:00"
-
-  // 1) 기본 코드 (앞의 2자리만 사용: "02")
   const base = iconCode.slice(0, 2);
-
-  // 2) 시간 파싱
-  const hour = parseInt(dtText.slice(11, 13), 10); // "15" → 15
-
-  // 3) 낮/밤 기준
+  const hour = parseInt(dtText.slice(11, 13), 10);
   const isDay = hour >= 6 && hour < 18;
-
-  // 4) 강제로 "02d" 또는 "02n" 같은 식으로 재조합
   return `${base}${isDay ? "d" : "n"}`;
 }
 
 //---------------------------------------------
-// 시간에 따라 bg 변경 (사용자 로컬 기준)
+// 시간대별 배경 변경
 //---------------------------------------------
+
 function updateBackgroundByLocalTime() {
   const hour = new Date().getHours();
   const body = document.body;
   const dayBg = document.querySelector("#dayBg");
   const nightBg = document.querySelector("#nightBg");
-  //낮
+
   if (hour >= 6 && hour < 18) {
     body.classList.add("day");
     body.classList.remove("night");
@@ -75,10 +63,12 @@ function updateBackgroundByLocalTime() {
   }
 }
 
-//---------------------------------------------
-//  날씨 아이콘,날씨설명 변경용 맵
-//---------------------------------------------
 updateBackgroundByLocalTime();
+
+//---------------------------------------------
+// 아이콘 / 설명 맵
+//---------------------------------------------
+
 const iconMap = {
   "01d": "img/01d.png",
   "01n": "img/01n.png",
@@ -99,33 +89,30 @@ const iconMap = {
   "50d": "img/50d.png",
   "50n": "img/50n.png",
 };
+
 const descMap = {
-  // 맑음
   맑음: "맑음",
-
-  // 구름 단계
-  "구름 조금": "구름 조금", // few clouds
-  "약간의 구름이 낀 하늘": "구름 보통", // scattered clouds
-  튼구름: "구름 많음", // broken clouds
-  온흐림: "흐림", // overcast clouds
-
-  // 비
-  "실 비": "이슬비", // light intensity drizzle (번역이 종종 이렇게 나옴)
-  "약한 비": "약한 비", // light rain
-  "보통 비": "비", // moderate rain
-  "강한 비": "강한 비", // heavy intensity rain
-  소나기: "소나기", // shower rain
-
-  // 눈
-  "가벼운 눈": "약한 눈", // light snow
-  "보통 눈": "눈", // snow
-  "강한 눈": "강한 눈", // heavy snow
-
-  // 기타
+  "구름 조금": "구름 조금",
+  "약간의 구름이 낀 하늘": "구름 보통",
+  튼구름: "구름 많음",
+  온흐림: "흐림",
+  "실 비": "이슬비",
+  "약한 비": "약한 비",
+  "보통 비": "비",
+  "강한 비": "강한 비",
+  소나기: "소나기",
+  "가벼운 눈": "약한 눈",
+  "보통 눈": "눈",
+  "강한 눈": "강한 눈",
   안개: "안개",
 };
 
+//---------------------------------------------
+// 현재 위치 기준 초기 호출
+//---------------------------------------------
+
 getLocation();
+
 function getLocation() {
   navigator.geolocation.getCurrentPosition(success);
 }
@@ -136,13 +123,23 @@ async function success(position) {
   fetchWeatherByCoords(lat, lon);
 }
 
-// 도시 이름(한글/영문)으로 좌표 찾기 + 날씨 가져오기
+//---------------------------------------------
+// API 호출 (좌표 / 도시명)
+//---------------------------------------------
+
+async function fetchWeatherByCoords(lat, lon) {
+  let response = await fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIkey}&units=metric&lang=kr`
+  );
+  let data = await response.json();
+  render(data);
+}
+
 async function fetchWeatherByCityName(cityname) {
   if (!cityname.trim()) return;
 
   const encodedCity = encodeURIComponent(cityname.trim());
 
-  // Geocoding API: 도시 후보 리스트 가져오기
   const geoRes = await fetch(
     `https://api.openweathermap.org/geo/1.0/direct?q=${encodedCity}&limit=5&appid=${APIkey}`
   );
@@ -153,39 +150,52 @@ async function fetchWeatherByCityName(cityname) {
     return;
   }
 
-  // 일단 1순위(가장 첫 번째 결과) 기준으로 날씨 가져오기
   const { lat, lon } = geoData[0];
   fetchWeatherByCoords(lat, lon);
 }
 
-// ---------------------------------------------
-// 검색 이벤트 (버튼/엔터) + 검색 후 input 비우기
-// ---------------------------------------------
+//---------------------------------------------
+// 검색 이벤트 (버튼 / 엔터)
+//---------------------------------------------
+
 button.addEventListener("click", () => {
-  const city = input.value;
+  const city = input.value.trim();
+  if (!city) return;
+
+  if (!document.body.classList.contains("searched")) {
+    document.body.classList.add("searched");
+  }
+
   fetchWeatherByCityName(city);
-  input.value = ""; // 검색 후 비우기
+  input.value = "";
 });
 
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const city = input.value;
+    const city = input.value.trim();
+    if (!city) return;
+
+    if (!document.body.classList.contains("searched")) {
+      document.body.classList.add("searched");
+    }
+
     fetchWeatherByCityName(city);
-    input.value = ""; // 검색 후 비우기
+    input.value = "";
   }
 });
 
 //---------------------------------------------
-// 렌더 함수
+// 렌더링
 //---------------------------------------------
+
 function render(data) {
-  gsap.killTweensOf(liEls); // 이전 트윈 정리(선택 사항)
+  gsap.killTweensOf(liEls);
 
   liEls.forEach((li, i) => {
     gsap.fromTo(
       li,
       {
-        marginTop: 50, // ← transform 대신 margin으로
+        marginTop: 50,
         opacity: 0,
       },
       {
@@ -203,7 +213,6 @@ function render(data) {
   let temps = [];
   let labels = [];
 
-  // ★ 현재 시간 & 가장 가까운 인덱스 찾기용 변수 (사용자 기준)
   const now = new Date();
   let nearestIndex = 0;
   let nearestDiff = Infinity;
@@ -212,33 +221,24 @@ function render(data) {
     let temp = Math.round(data.list[i].main.temp);
     tempEls[i].textContent = `현재 기온 : ${temp}℃`;
 
-    // 원본 아이콘 코드
     let rawIconCode = data.list[i].weather[0].icon;
-    let dtText = data.list[i].dt_txt; // "2025-11-15 15:00:00"
+    let dtText = data.list[i].dt_txt;
 
-    // ★ dt_txt 기준으로 d/n 교정
     let fixedIconCode = getCorrectIcon(rawIconCode, dtText);
-
-    // 맵에서 실제 이미지 경로 가져오기 (혹시 맵에 없으면 rawIconCode로 fallback)
     let iconUrl = iconMap[fixedIconCode] || iconMap[rawIconCode];
     iconEls[i].src = iconUrl;
 
-    let label = data.list[i].dt_txt.slice(11, 16); // "12:00"
+    let label = data.list[i].dt_txt.slice(11, 16);
     timeEls[i].textContent = label;
 
-    // ★ 여기 추가: 날씨 설명 넣기
     let rawDesc = data.list[i].weather[0].description;
-
-    // 매핑된 짧은 설명 가져오기
-    let shortDesc = descMap[rawDesc] || rawDesc; // 매핑 없으면 원본 사용
-
+    let shortDesc = descMap[rawDesc] || rawDesc;
     descEls[i].textContent = shortDesc;
 
     temps.push(temp);
     labels.push(label);
 
-    // ★ 이 예보 시간과 "지금" 시간 차이 계산 (사용자 기준)
-    const forecastTime = new Date(data.list[i].dt_txt); // "2025-01-01 12:00:00"
+    const forecastTime = new Date(data.list[i].dt_txt);
     const diff = Math.abs(forecastTime.getTime() - now.getTime());
 
     if (diff < nearestDiff) {
@@ -247,20 +247,16 @@ function render(data) {
     }
   }
 
-  // ★ for문 다 돈 후, li 강조 상태 반영
   liEls.forEach((li) => li.classList.remove("current"));
   if (liEls[nearestIndex]) {
     liEls[nearestIndex].classList.add("current");
   }
 
-  console.log("nearestIndex:", nearestIndex, data);
+  //---------------------------------------------
+  // 차트 (옵션: 필요 시 drawChart 호출)
+  //---------------------------------------------
 
-  //---------------------------------------------
-  // 차트
-  //---------------------------------------------
-  /*
-  drawChart(labels, temps);
-  */
+  // drawChart(labels, temps);
 
   function drawChart(labels, temps) {
     let ctx = document.querySelector("#weatherChart").getContext("2d");
@@ -304,18 +300,17 @@ function render(data) {
   }
 }
 
-// ---------------------------------------------
-// li 카드 젤리 / 물결 효과 (GSAP)
-// ---------------------------------------------
+//---------------------------------------------
+// 카드 hover 인터랙션 (젤리 / 기울기)
+//---------------------------------------------
+
 const cards = document.querySelectorAll("ul li");
 
-// 카드마다 기본 스케일 계산 함수
 function getBaseScale(el) {
   return el.classList.contains("current") ? 1.2 : 1;
 }
 
 cards.forEach((card) => {
-  // 마우스가 올라왔을 때 한 번 "통통" 튕기는 젤리 효과
   card.addEventListener("mouseenter", () => {
     const base = getBaseScale(card);
 
@@ -333,14 +328,13 @@ cards.forEach((card) => {
     );
   });
 
-  // 카드 위에서 마우스를 움직일 때 살짝 기울어지는 느낌
   card.addEventListener("mousemove", (e) => {
     const rect = card.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    const relX = (e.clientX - centerX) / (rect.width / 2); // -1 ~ 1
-    const relY = (e.clientY - centerY) / (rect.height / 2); // -1 ~ 1
+    const relX = (e.clientX - centerX) / (rect.width / 2);
+    const relY = (e.clientY - centerY) / (rect.height / 2);
 
     const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
     const x = clamp(relX, -1, 1);
@@ -359,7 +353,6 @@ cards.forEach((card) => {
     });
   });
 
-  // 카드 밖으로 나가면 원래대로 복귀
   card.addEventListener("mouseleave", () => {
     const base = getBaseScale(card);
 
@@ -375,9 +368,10 @@ cards.forEach((card) => {
   });
 });
 
-// ---------------------------------------------
-// div.bg 아이콘 눈동자: 커서를 따라가는 눈알 효과
-// ---------------------------------------------
+//---------------------------------------------
+// 얼굴 아이콘 눈동자: 커서 따라가기
+//---------------------------------------------
+
 const eyeEls = document.querySelectorAll(".bg .eye");
 
 document.addEventListener("mousemove", (e) => {
@@ -394,6 +388,7 @@ document.addEventListener("mousemove", (e) => {
 
     const dx = mouseX - centerX;
     const dy = mouseY - centerY;
+
     if (dx > 0) {
       gsap.to(pupil, {
         x: 0,
@@ -401,19 +396,16 @@ document.addEventListener("mousemove", (e) => {
         duration: 0.15,
         ease: "power2.out",
       });
-      return; // 이 눈은 여기서 처리 끝
+      return;
     }
-    // 눈동자가 움직일 수 있는 최대 반경 (눈 크기에 비례)
-    const maxOffset = rect.width * 0.4; // 눈 안에서만 움직이도록
 
+    const maxOffset = rect.width * 0.4;
     const angle = Math.atan2(dy, dx);
     const distance = Math.min(Math.hypot(dx, dy), maxOffset);
 
     const offsetX = Math.cos(angle) * distance;
     const offsetY = Math.sin(angle) * distance;
 
-    // pupil은 이미 CSS에서 중앙 기준(translate(-50%, -50%))이라
-    // GSAP의 x, y로 추가적인 이동만 줌
     gsap.to(pupil, {
       x: offsetX,
       y: offsetY,
@@ -423,9 +415,10 @@ document.addEventListener("mousemove", (e) => {
   });
 });
 
-// ---------------------------------------------
-// UL 가로 드래그 스크롤
-// ---------------------------------------------
+//---------------------------------------------
+// 가로 드래그 스크롤 (PC / 모바일)
+//---------------------------------------------
+
 const weatherList = document.querySelector("ul");
 
 let isDown = false;
@@ -454,11 +447,10 @@ if (weatherList) {
     if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - weatherList.offsetLeft;
-    const walk = (x - startX) * 1.5; // 숫자 키우면 더 빠르게 이동
+    const walk = (x - startX) * 1.5;
     weatherList.scrollLeft = scrollLeft - walk;
   });
 
-  // 터치(모바일) 지원
   weatherList.addEventListener("touchstart", (e) => {
     isDown = true;
     weatherList.classList.add("dragging");

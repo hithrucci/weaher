@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>WeatherSphere</title>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -12,112 +13,126 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="css/style.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div id="back">
-      <img src="img/back.svg" />
-    </div>
-    <div id="dayBg" class="bg">
-      <div class="face face-day">
-        <div class="eye eye-left">
-          <div class="pupil"></div>
-        </div>
-        <div class="eye eye-right">
-          <div class="pupil"></div>
-        </div>
+    <section id="view-main">
+      <div id="back">
+        <img src="img/back.svg" alt="back" />
       </div>
-    </div>
 
-    <div id="nightBg" class="bg">
-      <div class="face face-night">
-        <div class="eye eye-left">
-          <div class="pupil"></div>
-        </div>
-        <div class="eye eye-right">
-          <div class="pupil"></div>
+      <div id="dayBg" class="bg">
+        <div class="face face-day">
+          <div class="eye eye-left">
+            <div class="pupil"></div>
+          </div>
+          <div class="eye eye-right">
+            <div class="pupil"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="title">
-      <h1 data-text="WeatherSphere">WeatherSphere</h1>
-      <img src="img/logo.png" />
-    </div>
-    <div id="searchArea">
-      <input placeholder="검색할 도시이름 입력(ex:서울,도쿄,LA,...)" />
-      <button id="searchBtn">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </div>
-    <div id="suggestBox"></div>
-    <p id="location"></p>
-    <ul>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
+
+      <div id="nightBg" class="bg">
+        <div class="face face-night">
+          <div class="eye eye-left">
+            <div class="pupil"></div>
+          </div>
+          <div class="eye eye-right">
+            <div class="pupil"></div>
+          </div>
         </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-      <li>
-        <p class="time"></p>
-        <div class="iconWrap">
-          <img />
-          <p class="desc"></p>
-        </div>
-        <div class="temp"></div>
-      </li>
-    </ul>
+      </div>
+
+      <div class="title">
+        <h1 data-text="WeatherSphere">WeatherSphere</h1>
+        <img src="img/logo.png" alt="logo" />
+      </div>
+
+      <div id="searchArea">
+        <input
+          type="text"
+          placeholder="검색할 도시이름 입력(ex:서울,도쿄,LA,...)"
+        />
+        <button id="searchBtn" type="button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <div id="suggestBox"></div>
+
+      <p id="location"></p>
+
+      <ul>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+        <li>
+          <p class="time"></p>
+          <div class="iconWrap">
+            <img alt="" />
+            <p class="desc"></p>
+          </div>
+          <div class="temp"></div>
+        </li>
+      </ul>
+    </section>
+
     <canvas id="weatherChart"></canvas>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="js/weather.js"></script>
   </body>
