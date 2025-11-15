@@ -8,6 +8,7 @@
   font-weight: normal;
   font-display: swap;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -21,15 +22,64 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   text-align: center;
+  overflow: hidden;
 }
-body.day #bg {
+.bg {
   position: absolute;
   bottom: 0px;
   right: 30px;
   width: 25%;
+  display: none;
 }
-body.day #bg img {
+.bg.on {
+  display: block;
+}
+.face {
+  position: relative;
   width: 100%;
+  aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.face-day {
+  background-image: url("../img/dayIcon.png");
+}
+.face-night {
+  background-image: url("../img/nightIcon.png");
+}
+/* 눈(흰자 부분) */
+.eye {
+  position: absolute;
+  width: 15%;
+  height: 18%;
+  background-color: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+}
+/* 눈 위치 적당히 잡기 (필요하면 조정해도 됨) */
+.eye-left {
+  left: 42%;
+  top: 37%;
+}
+.eye-right {
+  right: 32%;
+  top: 37%;
+}
+/* 동공(기본은 정중앙) */
+.pupil {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 55%;
+  height: 55%;
+  border-radius: 50%;
+  background-color: #000;
+  transform: translate(-50%, -50%); /* 기본 중앙 정렬 */
+}
+.bg img {
+  width: 100%;
+  transform-origin: center center;
 }
 body.day {
   background-image: url("../img/bg_day.png");
@@ -95,8 +145,11 @@ h1::after {
   0% {
     background-position: 100% 0;
   }
-  50% {
+  25% {
     background-position: 0% 0;
+  }
+  50% {
+    background-position: -100% 0;
   }
   100% {
     background-position: -100% 0;
@@ -119,6 +172,7 @@ h1::after {
   margin: 0px auto;
   width: clamp(500px, 70%, 920px);
   position: relative;
+  transform-origin: center;
 }
 #searchBtn {
   position: absolute;
@@ -142,13 +196,14 @@ input {
   width: 100%;
   height: 75px;
   line-height: 75px;
-  padding: 0px 20px;
+  padding: 0px 40px;
   box-sizing: border-box;
   border: 3px solid #fff;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.5);
   border-radius: 50px;
   background-color: rgba(255, 255, 255, 0.4);
 }
+
 /* ----------------------------------- */
 /* location */
 /* ----------------------------------- */
@@ -159,30 +214,38 @@ input {
   color: #666;
 }
 #location i {
-  animation: rotate 1s infinite linear;
+  animation: rotate 2s infinite linear;
   perspective: 50%;
 }
 @keyframes rotate {
   0% {
     transform: rotateY(0deg);
   }
+  50% {
+    transform: rotateY(180deg);
+  }
   100% {
     transform: rotateY(180deg);
   }
 }
+
 /* ----------------------------------- */
 /* 시간별 날씨정보 */
 /* ----------------------------------- */
+
 ul {
   display: flex;
   justify-content: center;
   gap: 20px;
+  width: 80%;
+  margin: 0px auto;
 }
 
 li {
   padding: 10px;
-
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  width: calc(100% / 7 - 17.14px);
+  height: 300px;
 }
 img {
   width: 60px;

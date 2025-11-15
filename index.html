@@ -18,13 +18,33 @@
     <div id="back">
       <img src="img/back.svg" />
     </div>
-    <div id="bg"><img src="img/bgIcon.png" /></div>
+    <div id="dayBg" class="bg">
+      <div class="face face-day">
+        <div class="eye eye-left">
+          <div class="pupil"></div>
+        </div>
+        <div class="eye eye-right">
+          <div class="pupil"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="nightBg" class="bg">
+      <div class="face face-night">
+        <div class="eye eye-left">
+          <div class="pupil"></div>
+        </div>
+        <div class="eye eye-right">
+          <div class="pupil"></div>
+        </div>
+      </div>
+    </div>
     <div class="title">
       <h1 data-text="WeatherSphere">WeatherSphere</h1>
       <img src="img/logo.png" />
     </div>
     <div id="searchArea">
-      <input placeholder="도시이름 입력" />
+      <input placeholder="검색할 도시이름 입력" />
       <button id="searchBtn">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
@@ -68,6 +88,7 @@
       </li>
     </ul>
     <canvas id="weatherChart"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="js/weather.js"></script>
   </body>
 </html>
