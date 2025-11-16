@@ -196,10 +196,23 @@ detailBtn.addEventListener("click", () => search(detailInput.value));
 
 mainInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") search(mainInput.value);
+  input = "";
 });
 detailInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") search(detailInput.value);
+
+  input = "";
 });
+function search(city) {
+  if (!city.trim()) return;
+
+  fetchWeatherByCityName(city);
+  openDetailView();
+
+  // ✔ 검색 후 양쪽 인풋 모두 비우기
+  mainInput.value = "";
+  detailInput.value = "";
+}
 
 /* ---------------------------------------------
    메인 렌더
