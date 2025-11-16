@@ -28,11 +28,18 @@ ul {
 body {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   text-align: center;
+}
+.inner {
+  width: 1400px;
+  margin: 0px auto;
+  border: 1px solid red;
+  height: 100%;
+  padding-top: 1%;
 }
 #view-main,
 #view-detail {
@@ -67,10 +74,12 @@ body {
 
 .face-day {
   background-image: url("../img/dayIcon.png");
+  width: clamp(250px, 80%, 400px);
 }
 
 .face-night {
   background-image: url("../img/nightIcon.png");
+  width: clamp(250px, 80%, 400px);
 }
 
 .eye {
@@ -161,7 +170,7 @@ h1 {
   position: relative;
   z-index: 1;
   font-family: "PartialSans";
-  font-size: 72px;
+  font-size: clamp(40px, 4vw, 72px);
   color: #000;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
@@ -208,7 +217,7 @@ h1::after {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: clamp(100px, 20vw, 300px);
   z-index: 0;
 }
 
@@ -218,7 +227,7 @@ h1::after {
 
 #searchArea {
   margin: 0px auto;
-  width: clamp(500px, 70%, 920px);
+  width: clamp(500px, 90%, 1400px);
   position: relative;
   transform-origin: center;
 }
@@ -341,7 +350,7 @@ ul {
   display: flex;
   justify-content: flex-start;
   gap: 20px;
-  width: 75%;
+  width: 100%;
   margin: 0px auto;
   overflow: hidden;
   height: 380px;
